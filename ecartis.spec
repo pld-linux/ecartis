@@ -1,5 +1,5 @@
 %define		_snap	20020718
-%define		_rel	0.8
+%define		_rel	0.9
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -153,9 +153,16 @@ fi
 # alias:
 umask 022
 if [ -f /etc/mail/aliases ]; then
-	if ! grep -q "^%{name}:" /etc/mail/aliases; then
-		echo "%{name}:  \"|%{_ecartisdir}/%{name}\"" >> /etc/mail/aliases
-		newaliases || :
+	if [ -e /etc/smrsh ]; then
+		if ! grep -q "^%{name}:" /etc/mail/aliases; then
+			echo "%{name}:  \"|/etc/smrsh/ecartis\"" >> /etc/mail/aliases
+			newaliases || :
+		fi
+	else
+		if ! grep -q "^%{name}:" /etc/mail/aliases; then
+			echo "%{name}:  \"|%{_ecartisdir}/%{name}\"" >> /etc/mail/aliases
+			newaliases || :
+		fi
 	fi
 fi
 
@@ -167,7 +174,7 @@ fi
 # Detect SMRSH
 if [ -e /etc/smrsh -a ! -e /etc/smrsh/ecartis ]; then
     echo "#!/bin/sh" > /etc/smrsh/ecartis
-    echo "%{_ecartisdir}/ecartis $@" >> /etc/smrsh/ecartis
+    echo "%{_ecartisdir}/ecartis \$@" >> /etc/smrsh/ecartis
     chmod ug+rx /etc/smrsh/ecartis
 
     echo "Your installation has been detected to have SMRSH, the SendMail"
@@ -194,7 +201,7 @@ if [ -e /etc/smrsh ]; then
 	ln -sf /etc/smrsh/ecartis /etc/smrsh/listar
 fi
 echo "Copying lists from listar directories"
-cp -R /var/lib/listar/ /var/lib/ecartis/
+cp -R /var/lib/listar/lists /var/lib/ecartis/
 chown -R ecartis.ecartis /var/lib/ecartis/
 if [ -e /etc/smrsh ]; then
 	echo "Making link /etc/smrsh/listar to /etc/smrsh/ecartis:"
