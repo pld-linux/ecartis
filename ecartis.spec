@@ -87,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name},logrotate.d,cron.daily} \
 	$RPM_BUILD_ROOT%{_ecartisdata}/{queue,lists/{test/text,SITEDATA/cookies}} \
 	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates} \
-	$RPM_BUILD_ROOT{/home/httpd/cgi-bin/,/var/log}
+	$RPM_BUILD_ROOT{/home/services/httpd/cgi-bin/,/var/log}
 
 %{__make} -Csrc -fMakefile.dist install
 
@@ -113,7 +113,7 @@ install %{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 touch	$RPM_BUILD_ROOT%{_var}/log/%{name}.log
 touch	$RPM_BUILD_ROOT%{_ecartisdata}/lists/SITEDATA/cookies
 
-cat << EOF > $RPM_BUILD_ROOT/home/httpd/cgi-bin/ecartisgate.cgi
+cat << EOF > $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/ecartisgate.cgi
 #!/bin/sh
 %{_ecartisdir}/%{name} -lsg2
 EOF
@@ -125,7 +125,7 @@ EOF
 
 # For compatibility with Listar:
 ln -sf %{_ecartisdir}/%{name} $RPM_BUILD_ROOT%{_ecartisdir}/listar
-ln -sf /home/httpd/cgi-bin/ecartisgate.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/listargate.cgi
+ln -sf /home/services/httpd/cgi-bin/ecartisgate.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/listargate.cgi
 
 %pre
 if [ -n "`getgid %{name}`" ]; then
@@ -243,7 +243,7 @@ rm -Rf $RPM_BUILD_ROOT
 %files cgi
 %defattr(644,root,root,755)
 %doc src/modules/lsg2/*.txt
-%attr(755,root,   root) /home/httpd/cgi-bin/*.cgi
+%attr(755,root,   root) /home/services/httpd/cgi-bin/*.cgi
 %attr(770,root,ecartis) %dir %{_ecartisdata}/lists/SITEDATA
 %attr(660,root,ecartis) %{_ecartisdata}/lists/SITEDATA/cookies
 %{_ecartisdir}/templates/*.lsc
