@@ -1,5 +1,5 @@
 %define		_snap	snap20020325
-%define		_rel	0.1
+%define		_rel	0.2
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -63,8 +63,8 @@ Program ecartis-cgi, który jest interfejsem web do menad¿era Ecartis.
 %install
 rm -Rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name},logrotate.d,cron.daily} \
-	$RPM_BUILD_ROOT%{_ecartisdir}/{lists/{test/text,SITEDATA/cookies,queue}} \
-	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates} \
+	$RPM_BUILD_ROOT%{_ecartisdir}/lists/{test/text,SITEDATA/cookies} \
+	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates,queue} \
 	$RPM_BUILD_ROOT/home/httpd/cgi-bin/ \
 	$RPM_BUILD_ROOT/var/log
 
@@ -185,10 +185,10 @@ rm -Rf $RPM_BUILD_ROOT
 %attr(750, root,root) /etc/cron.daily/%{name}
 %attr(640, root,root) %config %verify(not size mtime md5) /etc/logrotate.d/%{name}
 %attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
-%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.{aliases,hlp,cfg}
+%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.aliases
+%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.hlp
+%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.cfg
 %attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/banned
-#%config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.hlp
-#%config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.cfg
 
 %attr(640,ecartis,ecartis) %ghost /var/log/%{name}.log
 %attr(711,ecartis,ecartis) %dir %{_ecartisdir}
