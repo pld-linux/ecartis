@@ -1,5 +1,5 @@
 %define		_snap	20030303
-%define		_rel	2
+%define		_rel	3
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
@@ -20,8 +20,8 @@ Patch2:		%{name}-paths.patch
 URL:		http://www.ecartis.org/
 Requires(pre): /usr/sbin/useradd
 Requires(pre): /usr/sbin/groupadd
-Requires(postun):      /usr/sbin/userdel
-Requires(postun):      /usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(postun):	/usr/sbin/groupdel
 Requires(post):	/bin/hostname
 Requires(post):	fileutils
 Requires(post):	grep
@@ -51,12 +51,12 @@ name due to trademark issues.
 Ecartis jest modu³owym narzêdziem do zarz±dzania listami dyskusyjnymi.
 Ca³a jego funkcjonalno¶æ zawiera siê w pojedynczych plikach 'epm'
 (Ecartis Plugin Module), dziêki czemu mo¿na w locie dodawaæ nowe
-polecenia i funkcjonalno¶æ. Ecartis ma wiele przydatnych funkcji, np. 
-mo¿liwo¶æ ustawienia 'flag' na kontach u¿ytkowników (podobnie jak w 
-programie L-soft Listserv), i bardzo bezpieczn± metodê zdalnej administracji 
+polecenia i funkcjonalno¶æ. Ecartis ma wiele przydatnych funkcji, np.
+mo¿liwo¶æ ustawienia 'flag' na kontach u¿ytkowników (podobnie jak w
+programie L-soft Listserv), i bardzo bezpieczn± metodê zdalnej administracji
 przy u¿yciu poczty elektronicznej.
 
-Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres bugs@ecartis.org 
+Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres bugs@ecartis.org
 lub zg³aszaæ na stronie http://bugs.ecartis.org/ecartis.
 
 UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³a
@@ -90,7 +90,7 @@ zarz±dzaj±cego Ecartis.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name},logrotate.d,cron.daily} \
-	$RPM_BUILD_ROOT%{_ecartisdata}/{queue,lists/{test/text,SITEDATA/cookies}} \
+	$RPM_BUILD_ROOT%{_ecartisdata}/{queue,lists/{test/text,SITEDATA}} \
 	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates} \
 	$RPM_BUILD_ROOT{%{_cgidir},/var/log}
 
@@ -110,8 +110,8 @@ install -D lists/test/text/*	$RPM_BUILD_ROOT%{_ecartisdata}/lists/test/text
 
 install %{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 
-touch	$RPM_BUILD_ROOT%{_var}/log/%{name}.log
-touch	$RPM_BUILD_ROOT%{_ecartisdata}/lists/SITEDATA/cookies
+> $RPM_BUILD_ROOT%{_var}/log/%{name}.log
+> $RPM_BUILD_ROOT%{_ecartisdata}/lists/SITEDATA/cookies
 
 cat << EOF > $RPM_BUILD_ROOT%{_cgidir}/ecartisgate.cgi
 #!/bin/sh
@@ -125,36 +125,36 @@ EOF
 
 # For compatibility with Listar:
 ln -sf %{_ecartisdir}/%{name} $RPM_BUILD_ROOT%{_ecartisdir}/listar
-ln -sf %{_cgidir}/ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
+ln -sf %{_cgidir}ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %pre
 if [ -n "`getgid %{name}`" ]; then
-       if [ "`getgid %{name}`" != "64" ]; then
-               echo "Error: group %{name} doesn't have gid=64. Correct this before installing %{name}." 1>&2
-               exit 1
-       fi
+	if [ "`getgid %{name}`" != "64" ]; then
+		echo "Error: group %{name} doesn't have gid=64. Correct this before installing %{name}." 1>&2
+		exit 1
+	fi
 else
-       echo "Adding group %{name} GID=64"
-       /usr/sbin/groupadd -f -g 64 -r %{name}
+	echo "Adding group %{name} GID=64"
+	/usr/sbin/groupadd -f -g 64 -r %{name}
 fi
 
 if [ -n "`id -u %{name} 2>/dev/null`" ]; then
-       if [ "`id -u %{name}`" != "64" ]; then
-               echo "Error: user %{name} doesn't have uid=64. Correct this before installing %{name}." 1>&2
-               exit 1
-       fi
+	if [ "`id -u %{name}`" != "64" ]; then
+		echo "Error: user %{name} doesn't have uid=64. Correct this before installing %{name}." 1>&2
+		exit 1
+	fi
 else
-       echo "Adding user %{name} UID=64"
-       /usr/sbin/useradd -u 64 -r -d %{_ecartisdir}  -s /bin/false -c "Ecartis User" -g %{name} %{name} 1>&2
+	echo "Adding user %{name} UID=64"
+	/usr/sbin/useradd -u 64 -r -d %{_ecartisdir} -s /bin/false -c "Ecartis User" -g %{name} %{name} 1>&2
 fi
 
 %postun
 if [ "$1" = "0" ]; then
-       /usr/sbin/userdel       %{name}
-       /usr/sbin/groupdel      %{name}
+	/usr/sbin/userdel  %{name}
+	/usr/sbin/groupdel %{name}
 fi
 
 %post
@@ -181,18 +181,18 @@ fi
 
 # Detect SMRSH
 if [ -e /etc/smrsh -a ! -e /etc/smrsh/ecartis ]; then
-    echo "#!/bin/sh" > /etc/smrsh/ecartis
-    echo "%{_ecartisdir}/ecartis \$@" >> /etc/smrsh/ecartis
-    chmod ug+rx /etc/smrsh/ecartis
+	echo "#!/bin/sh" > /etc/smrsh/ecartis
+	echo "%{_ecartisdir}/ecartis \$@" >> /etc/smrsh/ecartis
+	chmod ug+rx /etc/smrsh/ecartis
 
-    echo "Your installation has been detected to have SMRSH, the SendMail"
-    echo "Restricted SHell, installed.  If this is your first install, you"
-    echo "will want to: "
-    echo ""
-    echo "1) add 'listserver-bin-dir = /etc/smrsh' to ecartis.cfg"
-    echo "2) change the address for Ecartis in the aliases file to be"
-    echo "   /etc/smrsh/ecartis instead of /home/ecartis/ecartis"
-    chmod a+x /etc/smrsh/ecartis
+	echo "Your installation has been detected to have SMRSH, the SendMail"
+	echo "Restricted SHell, installed.  If this is your first install, you"
+	echo "will want to: "
+	echo ""
+	echo "1) add 'listserver-bin-dir = /etc/smrsh' to ecartis.cfg"
+	echo "2) change the address for Ecartis in the aliases file to be"
+	echo "   /etc/smrsh/ecartis instead of /home/ecartis/ecartis"
+	chmod a+x /etc/smrsh/ecartis
 fi
 
 # Force the %{_ecartisdir} directory permissions to something sane
@@ -224,7 +224,7 @@ fi
 %attr(750,root,root) /etc/cron.daily/%{name}
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/logrotate.d/%{name}
 %attr(775,ecartis,ecartis) %dir %{_sysconfdir}/%{name}
-%attr(644,root   ,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
+%attr(644,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
 %attr(640,ecartis,ecartis) %ghost /var/log/%{name}.log
 %attr(711,ecartis,ecartis) %dir %{_ecartisdir}
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/templates
