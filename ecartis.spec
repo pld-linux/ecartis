@@ -233,7 +233,7 @@ fi
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/modules
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/scripts
 %attr(751,ecartis,ecartis) %dir %{_ecartisdata}/archive
-%attr(751,ecartis,ecartis) %dir %{_ecartisdata}/lists
+%attr(755,ecartis,ecartis) %dir %{_ecartisdata}/lists
 %attr(750,ecartis,ecartis) %dir %{_ecartisdata}/queue
 %attr(750,ecartis,ecartis) %{_ecartisdata}/*.hlp
 %attr(640,root   ,ecartis) %{_ecartisdir}/spam-regexp.sample
