@@ -1,5 +1,5 @@
---- ./src/inc/config.h.org	Mon Oct 14 08:45:06 2002
-+++ ./src/inc/config.h	Sun Dec 29 23:17:29 2002
+--- ./src/inc/config.h.org	Tue Mar  4 08:45:05 2003
++++ ./src/inc/config.h	Tue Mar  4 22:01:50 2003
 @@ -20,7 +20,7 @@
  #define SERVICE_NAME_UC "ECARTIS"
  #define SERVICE_NAME_MC "Ecartis"
@@ -9,8 +9,8 @@
  #define SERVICE_ADDRESS "ecartis@localhost"
  
  #endif /* _CONFIG_H */
---- ./src/variables.c.org	Mon Oct 14 08:45:06 2002
-+++ ./src/variables.c	Sun Dec 29 23:24:07 2002
+--- ./src/variables.c.org	Tue Mar  4 08:45:05 2003
++++ ./src/variables.c	Tue Mar  4 22:03:50 2003
 @@ -1295,12 +1295,12 @@
      register_var("default-flags", "|ECHOPOST|", "Basic Configuration",
                   "Default flags given to a user when they are subscribed.",
@@ -27,10 +27,10 @@
      register_var("full-bounce", "no", "SMTP",
                   "Should bounces contain the full message or only the headers.",
                   "full-bounce = false", VAR_BOOL, VAR_ALL);
-@@ -1314,7 +1314,7 @@
-     register_var("moderate-include-queue", "no", "Moderation", 
-                  "Should moderated messages contain the full message that triggered moderation?",
-                  "moderate-include-queue = yes", VAR_BOOL, VAR_ALL);
+@@ -1317,7 +1317,7 @@
+     register_var("moderate-verbose-subject", "yes", "Moderation",
+                  "Should moderated messages have a more informative subject?",
+                  "moderate-verbose-subject = yes", VAR_BOOL, VAR_ALL);
 -    buffer_printf(buf, sizeof(buf) - 1, "%s.hlp", SERVICE_NAME_LC);
 +    buffer_printf(buf, sizeof(buf) - 1, "/etc/ecartis/%s.hlp", SERVICE_NAME_LC);
      register_var("no-command-file", buf, "Files",
