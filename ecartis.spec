@@ -1,5 +1,5 @@
 %define		_snap	20020718
-%define		_rel	0.6
+%define		_rel	0.7
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -166,9 +166,9 @@ fi
 
 # Detect SMRSH
 if [ -e /etc/smrsh -a ! -e /etc/smrsh/ecartis ]; then
-    echo "#!/bin/sh" > /etc/%{name}/ecartis
-    echo "%{_ecartisdir}/ecartis $@" >> /etc/%{name}/ecartis
-    chmod ug+rx /etc/%{name}/ecartis
+    echo "#!/bin/sh" > /etc/smrsh/ecartis
+    echo "%{_ecartisdir}/ecartis $@" >> /etc/smrsh/ecartis
+    chmod ug+rx /etc/smrsh/ecartis
 
     echo "Your installation has been detected to have SMRSH, the SendMail"
     echo "Restricted SHell, installed.  If this is your first install, you"
@@ -189,12 +189,17 @@ echo "done."
 exit 0
 
 %triggerpostun -- listar
+echo "Upgrading from listar..."
 if [ -e /etc/smrsh ]; then
 	ln -sf /etc/smrsh/ecartis /etc/smrsh/listar
 fi
 echo "Copying lists from listar directories"
 cp -R /var/lib/listar/ /var/lib/ecartis/
 chown -R ecartis.ecartis /var/lib/ecartis/
+if [ -e /etc/smrsh ]; then
+	echo "Making link /etc/smrsh/listar to /etc/smrsh/ecartis:"
+	ln -sf ecartis /etc/smrsh/listar
+fi
 
 %clean
 rm -Rf $RPM_BUILD_ROOT
@@ -210,7 +215,6 @@ rm -Rf $RPM_BUILD_ROOT
 %attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.hlp
 %attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.cfg
 %attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/banned
-
 %attr(640,ecartis,ecartis) %ghost /var/log/%{name}.log
 %attr(711,ecartis,ecartis) %dir %{_ecartisdir}
 %attr(751,ecartis,ecartis) %dir %{_ecartisdir}/lists
