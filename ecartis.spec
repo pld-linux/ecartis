@@ -248,7 +248,7 @@ fi
 %defattr(644,root,root,755)
 %doc ECARTIS.TODO NOTE README* src/{CHANGELOG,CREDITS} documentation/ecartis.txt
 %attr(750,root,root) /etc/cron.daily/%{name}
-%attr(640,root,root) %config %verify(not size mtime md5) /etc/logrotate.d/%{name}
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/%{name}
 %attr(775,ecartis,ecartis) %dir %{_sysconfdir}/%{name}
 %attr(644,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
 %attr(640,ecartis,ecartis) %ghost /var/log/%{name}.log
