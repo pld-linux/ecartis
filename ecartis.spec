@@ -1,4 +1,4 @@
-%define		_snap	20021013
+%define		_snap	20030417
 %define		_rel	1
 
 Summary:	Ecartis mailing list manager
@@ -10,12 +10,12 @@ License:	GPL v2
 Vendor:		NodeRunner Software
 Group:		Applications/Mail
 Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{version}-snap%{_snap}.tar.gz
+# Source0-md5:	132a95810f1004bcc26671d019f4d511
 Source1:	%{name}.logrotate
 #Original taken from: http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-paths.patch
-# Does not work :-/ Connection refused..
 URL:		http://www.ecartis.org/
 Requires(pre):	/usr/sbin/useradd
 Requires(pre):	/usr/sbin/groupadd
@@ -30,6 +30,7 @@ Obsoletes:	listar
 
 %define		_ecartisdir	/usr/lib/ecartis
 %define		_ecartisdata	/var/lib/ecartis
+%define         _cgidir         /home/httpd/cgi-bin/
 
 %description
 Ecartis is a modular mailing list manager; all its functionality is
@@ -90,7 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name},logrotate.d,cron.daily} \
 	$RPM_BUILD_ROOT%{_ecartisdata}/{queue,lists/{test/text,SITEDATA/cookies}} \
 	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates} \
-	$RPM_BUILD_ROOT{/home/services/httpd/cgi-bin/,/var/log}
+	$RPM_BUILD_ROOT{%{_cgidir},/var/log}
 
 %{__make} -Csrc -fMakefile.dist install
 
@@ -99,11 +100,11 @@ install %{name}	$RPM_BUILD_ROOT%{_ecartisdir}
 install modules/*.lpm		$RPM_BUILD_ROOT%{_ecartisdir}/modules
 install scripts/*		$RPM_BUILD_ROOT%{_ecartisdir}/scripts
 install ecartis.cfg.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.cfg
-install ecartis.hlp		$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.hlp
 install ecartis.aliases.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.aliases
 install banned			$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/banned
 install spam-regexp.sample	$RPM_BUILD_ROOT%{_ecartisdir}/spam-regexp.sample
 install templates/*.lsc		$RPM_BUILD_ROOT%{_ecartisdir}/templates
+install ecartis.hlp		$RPM_BUILD_ROOT%{_ecartisdata}/
 install -D lists/test/text/*	$RPM_BUILD_ROOT%{_ecartisdata}/lists/test/text
 
 install %{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
@@ -111,7 +112,7 @@ install %{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 touch	$RPM_BUILD_ROOT%{_var}/log/%{name}.log
 touch	$RPM_BUILD_ROOT%{_ecartisdata}/lists/SITEDATA/cookies
 
-cat << EOF > $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/ecartisgate.cgi
+cat << EOF > $RPM_BUILD_ROOT%{_cgidir}/ecartisgate.cgi
 #!/bin/sh
 %{_ecartisdir}/%{name} -lsg2
 EOF
@@ -123,7 +124,7 @@ EOF
 
 # For compatibility with Listar:
 ln -sf %{_ecartisdir}/%{name} $RPM_BUILD_ROOT%{_ecartisdir}/listar
-ln -sf /home/services/httpd/cgi-bin/ecartisgate.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/listargate.cgi
+ln -sf %{_cgidir}/ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -230,6 +231,7 @@ fi
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/scripts
 %attr(751,ecartis,ecartis) %dir %{_ecartisdata}/lists
 %attr(750,ecartis,ecartis) %dir %{_ecartisdata}/queue
+%attr(750,ecartis,ecartis) %{_ecartisdata}/*.hlp
 %attr(640,root   ,ecartis) %{_ecartisdir}/spam-regexp.sample
 %attr(750,ecartis,ecartis) %{_ecartisdir}/modules/*
 %attr(750,ecartis,ecartis) %{_ecartisdir}/scripts/*
@@ -238,7 +240,7 @@ fi
 %files cgi
 %defattr(644,root,root,755)
 %doc src/modules/lsg2/*.txt
-%attr(755,root,   root) /home/services/httpd/cgi-bin/*.cgi
+%attr(755,root,   root) %{_cgidir}/*.cgi
 %attr(770,root,ecartis) %dir %{_ecartisdata}/lists/SITEDATA
 %attr(660,root,ecartis) %{_ecartisdata}/lists/SITEDATA/cookies
 %{_ecartisdir}/templates/*.lsc
