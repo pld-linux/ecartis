@@ -1,5 +1,5 @@
 %define		_snap	20020718
-%define		_rel	0.5
+%define		_rel	0.6
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -14,11 +14,11 @@ Source1:	%{name}.logrotate
 Patch0:		http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch1:		%{name}-conf.patch
 URL:		http://www.ecartis.org/
-Prereq:		%{_sbindir}/useradd
-Prereq:		%{_sbindir}/groupadd
-Prereq:		%{_sbindir}/userdel
-Prereq:		%{_sbindir}/groupdel
-Prereq:		/bin/hostname
+Requires(pre):	%{_sbindir}/useradd
+Requires(pre):	%{_sbindir}/groupadd
+Requires(post):	/bin/hostname
+Requires(postun):	%{_sbindir}/userdel
+Requires(postun):	%{_sbindir}/groupdel
 Provides:	listar
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	listar
@@ -54,7 +54,6 @@ lub zg³aszaæ na stronie http://bugs.ecartis.org/ecartis.
 UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³a
 zmieniona ze wzglêdu na problemy ze znakiem handlowym.
 
-
 %package cgi
 Summary:	Web interface for Ecartis
 Summary(pl):	Web interfejs dla Ecartis
@@ -73,7 +72,6 @@ Program ecartis-cgi, który jest interfejsem web do menad¿era Ecartis.
 %setup -q
 #%patch0 -p1
 %patch1 -p1
-
 
 %build
 %{__make} -Csrc -fMakefile.dist WFLAGS="%{rpmcflags} -Wall"
@@ -110,7 +108,6 @@ ln -sf %{_sysconfdir}/%{name}/%{name}.hlp	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.
 touch	$RPM_BUILD_ROOT%{_var}/log/%{name}.log
 touch	$RPM_BUILD_ROOT%{_ecartisdir}/lists/SITEDATA/cookies
 
-
 cat << EOF > $RPM_BUILD_ROOT/home/httpd/cgi-bin/ecartisgate.cgi
 #!/bin/sh
 %{_ecartisdir}/%{name} -lsg2
@@ -128,7 +125,7 @@ ln -sf /home/httpd/cgi-bin/ecartisgate.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/li
 %pre
 if [ -n "`getgid %{name}`" ]; then
 	if [ "`getgid %{name}`" != "64" ]; then
-		echo "Warning: group %{name} haven't gid=64. Correct this before installing %{name}." 1>&2
+		echo "Error: group %{name} doesn't have gid=64. Correct this before installing %{name}." 1>&2
 		exit 1
 	fi
 else
@@ -138,7 +135,7 @@ fi
 
 if [ -n "`id -u %{name} 2>/dev/null`" ]; then
 	if [ "`id -u %{name}`" != "64" ]; then
-		echo "Warning: user %{name} haven't uid=64. Correct this before installing %{name}." 1>&2
+		echo "Error: user %{name} doesn't have uid=64. Correct this before installing %{name}." 1>&2
 		exit 1
 	fi
 else
@@ -147,7 +144,7 @@ else
 fi
 
 %postun
-if [ $1 = 0 ]; then
+if [ "$1" = "0" ]; then
 	/usr/sbin/userdel	%{name}
 	/usr/sbin/groupdel	%{name}
 fi
@@ -191,7 +188,7 @@ echo -n "Run upgrade now... "
 echo "done."
 exit 0
 
-%triggerpost -- listar
+%triggerpostun -- listar
 if [ -e /etc/smrsh ]; then
 	ln -sf /etc/smrsh/ecartis /etc/smrsh/listar
 fi
@@ -206,13 +203,13 @@ rm -Rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ECARTIS.TODO NOTE README* src/{CHANGELOG,CREDITS}
 
-%attr(750, root,root) /etc/cron.daily/%{name}
-%attr(640, root,root) %config %verify(not size mtime md5) /etc/logrotate.d/%{name}
-%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
-%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.aliases
-%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.hlp
-%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.cfg
-%attr(640, root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/banned
+%attr(750,root,root) /etc/cron.daily/%{name}
+%attr(640,root,root) %config %verify(not size mtime md5) /etc/logrotate.d/%{name}
+%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
+%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.aliases
+%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.hlp
+%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.cfg
+%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/banned
 
 %attr(640,ecartis,ecartis) %ghost /var/log/%{name}.log
 %attr(711,ecartis,ecartis) %dir %{_ecartisdir}
@@ -229,7 +226,7 @@ rm -Rf $RPM_BUILD_ROOT
 %files cgi
 %defattr(644,root,root,755)
 %doc src/modules/lsg2/*.txt
-%attr(755, root,   root) /home/httpd/cgi-bin/*.cgi
-%attr(770, root,ecartis) %dir %{_ecartisdir}/lists/SITEDATA
-%attr(660, root,ecartis) %{_ecartisdir}/lists/SITEDATA/cookies
+%attr(755,root,   root) /home/httpd/cgi-bin/*.cgi
+%attr(770,root,ecartis) %dir %{_ecartisdir}/lists/SITEDATA
+%attr(660,root,ecartis) %{_ecartisdir}/lists/SITEDATA/cookies
 %{_ecartisdir}/templates/*.lsc
