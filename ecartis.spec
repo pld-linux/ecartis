@@ -1,5 +1,5 @@
 %define		_snap	20030814
-%define		_rel	3
+%define		_rel	4
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
@@ -36,7 +36,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_ecartisdir	/usr/lib/ecartis
 %define		_ecartisdata	/var/lib/ecartis
-%define		_cgidir		/home/services/httpd/cgi-bin/
+%define		_cgidir		/srv/httpd/cgi-bin/
 
 %description
 Ecartis is a modular mailing list manager; all its functionality is
