@@ -90,7 +90,7 @@ zarz±dzaj±cego Ecartis.
 %patch2 -p1
 
 %build
-TEXINPUTS=".:/usr/share/latex2html/texinputs:/usr/share/texmf/tex/{generic,}/"; export TEXINPUTS
+TEXINPUTS=".:/usr/share/latex2html/texinputs:"; export TEXINPUTS
 
 perl -pi -e 's@include templates@include %{_ecartisdata}/templates@' templates/*.lsc
 
