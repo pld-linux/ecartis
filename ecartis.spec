@@ -16,7 +16,6 @@ Source1:	%{name}.logrotate
 Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-paths.patch
-# Does not work :-/ Connection refused..
 URL:		http://www.ecartis.org/
 Requires(pre):	/usr/sbin/useradd
 Requires(pre):	/usr/sbin/groupadd
