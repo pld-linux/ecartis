@@ -37,6 +37,22 @@ the web at http://bugs.ecartis.org/ecartis
 NOTE: This package used to be named Listar, but has recently changed
 name due to trademark issues.
 
+%description -l pl
+Ecartis jest modu³owym narzêdziem do zarz±dzania listami dyskusyjnymi.
+Ca³a jego funkcjonalno¶æ zawiera siê w pojedynczych plikach 'epm'
+(Ecartis Plugin Module), dziêki czemu mo¿na w locie dodawaæ nowe
+polecenia i funkcjonalno¶æ. Ecartis ma wiele przydatnych funkcji, np. 
+mo¿liwo¶æ ustawienia 'flag' na kontach u¿ytkowników (podobnie jak w 
+programie L-soft Listserv), i bardzo bezpieczn± metodê zdalnej administracji 
+przy u¿yciu poczty elektronicznej.
+
+Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres bugs@ecartis.org 
+lub zg³aszaæ na stronie http://bugs.ecartis.org/ecartis.
+
+UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³±
+zmieniona ze wzglêdu na problemy ze znakiem handlowym.
+
+
 %package cgi
 Summary:	Web interface for Ecartis
 Summary(pl):	Web interfejs dla Ecartis
