@@ -1,5 +1,5 @@
 %define		_snap	20020718
-%define		_rel	0.10
+%define		_rel	0.11
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -11,7 +11,8 @@ Vendor:		NodeRunner Software
 Group:		Applications/Mail
 Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{version}-snap%{_snap}.tar.gz
 Source1:	%{name}.logrotate
-Patch0:		http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
+#Original taken from: http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
+Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
 URL:		http://www.ecartis.org/
 Requires(pre):	%{_sbindir}/useradd
@@ -71,7 +72,7 @@ Program ecartis-cgi, który jest interfejsem web do menad¿era Ecartis.
 
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 
 %build
