@@ -16,10 +16,10 @@ Source1:	%{name}.logrotate
 Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-paths.patch
-# Does not work :-/ Connection refused..
 URL:		http://www.ecartis.org/
-Requires(pre): /usr/sbin/useradd
-Requires(pre): /usr/sbin/groupadd
+BuildRequires:	perl-base
+Requires(pre):	/usr/sbin/useradd
+Requires(pre):	/usr/sbin/groupadd
 Requires(postun):	/usr/sbin/userdel
 Requires(postun):	/usr/sbin/groupdel
 Requires(post):	/bin/hostname
@@ -42,7 +42,7 @@ on user accounts (similar to L-soft Listserv), and a very secure
 remote administration method over e-mail.
 
 Errors to this package should be reported to bugs@ecartis.org or via
-the web at http://bugs.ecartis.org/ecartis
+the web at http://bugs.ecartis.org/ecartis/.
 
 NOTE: This package used to be named Listar, but has recently changed
 name due to trademark issues.
@@ -57,7 +57,7 @@ programie L-soft Listserv), i bardzo bezpieczn± metodê zdalnej administracji
 przy u¿yciu poczty elektronicznej.
 
 Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres bugs@ecartis.org
-lub zg³aszaæ na stronie http://bugs.ecartis.org/ecartis.
+lub zg³aszaæ na stronie http://bugs.ecartis.org/ecartis/.
 
 UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³a
 zmieniona ze wzglêdu na problemy ze znakiem handlowym.
@@ -87,10 +87,12 @@ zarz±dzaj±cego Ecartis.
 %build
 %{__make} -Csrc -fMakefile.dist WFLAGS="%{rpmcflags} -Wall"
 
+perl -pi -e 's@include templates@include /var/lib/ecartis/templates@' templates/*.lsc
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name},logrotate.d,cron.daily} \
-	$RPM_BUILD_ROOT%{_ecartisdata}/{queue,lists/{test/text,SITEDATA}} \
+	$RPM_BUILD_ROOT%{_ecartisdata}/{archive,queue,lists/{test/text,SITEDATA/users}} \
 	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates} \
 	$RPM_BUILD_ROOT{%{_cgidir},/var/log}
 
@@ -104,7 +106,7 @@ install ecartis.cfg.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.cfg
 install ecartis.aliases.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.aliases
 install banned			$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/banned
 install spam-regexp.sample	$RPM_BUILD_ROOT%{_ecartisdir}/spam-regexp.sample
-install templates/*.lsc		$RPM_BUILD_ROOT%{_ecartisdir}/templates
+install templates/*.lsc		$RPM_BUILD_ROOT%{_ecartisdata}/templates
 install ecartis.hlp		$RPM_BUILD_ROOT%{_ecartisdata}/ecartis.hlp
 install -D lists/test/text/*	$RPM_BUILD_ROOT%{_ecartisdata}/lists/test/text
 
@@ -230,6 +232,7 @@ fi
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/templates
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/modules
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/scripts
+%attr(751,ecartis,ecartis) %dir %{_ecartisdata}/archive
 %attr(751,ecartis,ecartis) %dir %{_ecartisdata}/lists
 %attr(750,ecartis,ecartis) %dir %{_ecartisdata}/queue
 %attr(750,ecartis,ecartis) %{_ecartisdata}/*.hlp
@@ -242,6 +245,6 @@ fi
 %defattr(644,root,root,755)
 %doc src/modules/lsg2/*.txt
 %attr(755,root,   root) %{_cgidir}/*.cgi
-%attr(770,root,ecartis) %dir %{_ecartisdata}/lists/SITEDATA
+%attr(775,root,ecartis) %dir %{_ecartisdata}/lists/SITEDATA
 %attr(660,root,ecartis) %{_ecartisdata}/lists/SITEDATA/cookies
-%{_ecartisdir}/templates/*.lsc
+%{_ecartisdata}/templates/*.lsc
