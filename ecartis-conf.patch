@@ -10,7 +10,7 @@
 -# listserver-modules = /home/ecartis/modules
 +listserver-root = /usr/lib/ecartis
 +listserver-conf = /etc/ecartis
-+listserver-data = /usr/lib/ecartis
++listserver-data = /var/lib/ecartis
 +listserver-modules = /usr/lib/ecartis/modules
  
  # List directory
