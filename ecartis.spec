@@ -25,18 +25,23 @@ Patch2:		%{name}-paths.patch
 URL:		http://www.ecartis.org/
 BuildRequires:	latex2html
 BuildRequires:	perl-base
+BuildRequires:	rpmbuild(macros) >= 1.159
 BuildRequires:	tetex-dvips
 BuildRequires:	tetex-latex
 BuildRequires:	tetex-pdftex
 BuildRequires:	w3m
 BuildRequires:	/usr/bin/pdflatex
-Requires(pre):	/usr/sbin/useradd
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
-Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/usr/sbin/useradd
 Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
 Requires(post):	/bin/hostname
 Requires(post):	fileutils
 Requires(post):	grep
+Provides:	group(ecartis)
+Provides:	user(ecartis)
 Provides:	listar
 Obsoletes:	listar
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -158,30 +163,31 @@ ln -sf %{_cgidir}/ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-if [ -n "`getgid %{name}`" ]; then
-	if [ "`getgid %{name}`" != "64" ]; then
-		echo "Error: group %{name} doesn't have gid=64. Correct this before installing %{name}." 1>&2
+if [ -n "`/usr/bin/getgid ecartis`" ]; then
+	if [ "`/usr/bin/getgid ecartis`" != 64 ]; then
+		echo "Error: group ecartis doesn't have gid=64. Correct this before installing %{name}." 1>&2
 		exit 1
 	fi
 else
-	echo "Adding group %{name} GID=64"
-	/usr/sbin/groupadd -f -g 64 -r %{name}
+	echo "Adding group ecartis GID=64"
+	/usr/sbin/groupadd -g 64 ecartis 1>&2
 fi
 
-if [ -n "`id -u %{name} 2>/dev/null`" ]; then
-	if [ "`id -u %{name}`" != "64" ]; then
-		echo "Error: user %{name} doesn't have uid=64. Correct this before installing %{name}." 1>&2
+if [ -n "`/bin/id -u ecartis 2>/dev/null`" ]; then
+	if [ "`/bin/id -u ecartis`" != 64 ]; then
+		echo "Error: user ecartis doesn't have uid=64. Correct this before installing %{name}." 1>&2
 		exit 1
 	fi
 else
-	echo "Adding user %{name} UID=64"
-	/usr/sbin/useradd -u 64 -r -d %{_ecartisdir} -s /bin/false -c "Ecartis User" -g %{name} %{name} 1>&2
+	echo "Adding user ecartis UID=64"
+	/usr/sbin/useradd -u 64 -d %{_ecartisdir} -s /bin/false \
+		-c "Ecartis User" -g ecartis ecartis 1>&2
 fi
 
 %postun
 if [ "$1" = "0" ]; then
-	/usr/sbin/userdel  %{name}
-	/usr/sbin/groupdel %{name}
+	%userremove ecartis
+	%groupremove ecartis
 fi
 
 %post
