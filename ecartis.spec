@@ -1,5 +1,5 @@
 %define		_snap	20020718
-%define		_rel	0.7
+%define		_rel	0.8
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -130,7 +130,7 @@ if [ -n "`getgid %{name}`" ]; then
 	fi
 else
 	echo "Adding group %{name} GID=64"
-	/usr/sbin/groupadd -f -g %{name} -r %{name}
+	/usr/sbin/groupadd -f -g 64 -r %{name}
 fi
 
 if [ -n "`id -u %{name} 2>/dev/null`" ]; then
