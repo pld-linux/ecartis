@@ -87,7 +87,7 @@ zarz±dzaj±cego Ecartis.
 %build
 %{__make} -Csrc -fMakefile.dist WFLAGS="%{rpmcflags} -Wall"
 
-perl -pi -e 's@include templates@include /var/lib/ecartis/templates@' templates/*.lsc
+perl -pi -e 's@include templates@include %{_ecartisdata}/templates@' templates/*.lsc
 
 %install
 rm -rf $RPM_BUILD_ROOT
