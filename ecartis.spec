@@ -1,5 +1,5 @@
 %define		_snap	20020718
-%define		_rel	0.9
+%define		_rel	0.10
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -191,9 +191,8 @@ fi
 chmod 711 %{_ecartisdir}
 
 # Run upgrade
-echo -n "Run upgrade now... "
+echo "Run upgrade now... "
 %{_ecartisdir}/%{name} -upgrade
-echo "done."
 exit 0
 
 %triggerpostun -- listar
