@@ -17,12 +17,12 @@ Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-paths.patch
 URL:		http://www.ecartis.org/
-BuildRequires:	latex2html
+#BuildRequires:	latex2html
 BuildRequires:	perl-base
-BuildRequires:	tetex-dvips
-BuildRequires:	tetex-latex
-BuildRequires:	tetex-pdftex
-BuildRequires:	w3m
+#BuildRequires:	tetex-dvips
+#BuildRequires:	tetex-latex
+#BuildRequires:	tetex-pdftex
+#BuildRequires:	w3m
 Requires(pre):	/usr/sbin/useradd
 Requires(pre):	/usr/sbin/groupadd
 Requires(postun):	/usr/sbin/userdel
@@ -96,13 +96,13 @@ perl -pi -e 's@include templates@include %{_ecartisdata}/templates@' templates/*
 	-fMakefile.dist \
 	WFLAGS="%{rpmcflags} -Wall"
 
-%{__make} -C documentation \
-	LATEX=%{_bindir}/latex \
-	PDFLATEX=%{_bindir}/pdflatex \
-	DVIPS=%{_bindir}/dvips \
-	W3M=%{_bindir}/w3m \
-	LATEX2HTML=%{_bindir}/latex2html \
-	WFLAGS="%{rpmcflags} -Wall"
+#%{__make} -C documentation txt \
+#	LATEX=%{_bindir}/latex \
+#	PDFLATEX=%{_bindir}/pdflatex \
+#	DVIPS=%{_bindir}/dvips \
+#	W3M=%{_bindir}/w3m \
+#	LATEX2HTML=%{_bindir}/latex2html \
+#	WFLAGS="%{rpmcflags} -Wall"
 
 
 %install
