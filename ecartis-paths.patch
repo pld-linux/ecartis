@@ -1,0 +1,27 @@
+diff -uNr ecartis-1.0.0.orig/src/inc/config.h ecartis-1.0.0/src/inc/config.h
+--- ecartis-1.0.0.orig/src/inc/config.h	Mon Aug 12 08:45:07 2002
++++ ecartis-1.0.0/src/inc/config.h	Fri Aug 30 19:32:07 2002
+@@ -20,7 +20,7 @@
+ #define SERVICE_NAME_UC "ECARTIS"
+ #define SERVICE_NAME_MC "Ecartis"
+ #define SERVICE_NAME_LC "ecartis"
+-#define GLOBAL_CFG_FILE "ecartis.cfg"
++#define GLOBAL_CFG_FILE "/etc/ecartis/ecartis.cfg"
+ #define SERVICE_ADDRESS "ecartis@localhost"
+ 
+ #endif /* _CONFIG_H */
+diff -uNr ecartis-1.0.0.orig/src/variables.c ecartis-1.0.0/src/variables.c
+--- ecartis-1.0.0.orig/src/variables.c	Mon Aug 12 08:45:07 2002
++++ ecartis-1.0.0/src/variables.c	Fri Aug 30 19:40:33 2002
+@@ -1295,9 +1295,9 @@
+     register_var("default-flags", "|ECHOPOST|", "Basic Configuration",
+                  "Default flags given to a user when they are subscribed.",
+                  "default-flags = |NOPOST|DIGEST|", VAR_STRING, VAR_ALL);
+-    register_var("global-blacklist", "banned", "Files",
++    register_var("global-blacklist", "/etc/ecartis/banned", "Files",
+                  "Global file containing regular expressions for users who are not allowed to subscribe to lists hosted on this server.",
+-                 "global-blacklist = banned", VAR_STRING, VAR_GLOBAL|VAR_SITE);
++                 "global-blacklist = /etc/ecartis/banned", VAR_STRING, VAR_GLOBAL|VAR_SITE);
+     register_var("logfile", NULL, "Debugging",
+                  "Filename where debugging log information will be stored.",
+                  "logfile = ./server.log", VAR_STRING, VAR_GLOBAL|VAR_SITE);
