@@ -1,5 +1,5 @@
-%define		_snap	snap20020325
-%define		_rel	0.2
+%define		_snap	20020427
+%define		_rel	0.3
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -9,7 +9,7 @@ Release:	%{_snap}.{_rel}
 License:	GPL
 Vendor:		NodeRunner Software
 Group:		Applications/Mail
-Source0:	ftp://ftp.ecartis.org/pub/ecartis/%{name}-%{version}-%{_snap}.tar.gz
+Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{version}-snap%{_snap}.tar.gz
 Source1:	%{name}.logrotate
 Patch0:		http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch1:		%{name}-conf.patch
