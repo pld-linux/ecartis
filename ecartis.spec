@@ -123,8 +123,6 @@ EOF
 ln -sf %{_ecartisdir}/%{name} $RPM_BUILD_ROOT%{_ecartisdir}/listar
 ln -sf /home/httpd/cgi-bin/ecartisgate.cgi $RPM_BUILD_ROOT/home/httpd/cgi-bin/listargate.cgi
 
-gzip -9nf ECARTIS.TODO NOTE README* src/CHANGELOG* src/CREDITS
-
 %pre
 if [ -n "`getgid %{name}`" ]; then
 	if [ "`getgid %{name}`" != "64" ]; then
@@ -196,7 +194,7 @@ rm -Rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz src/*.gz
+%doc ECARTIS.TODO NOTE README* src/{CHANGELOG,CREDITS}
 
 %attr(750, root,root) /etc/cron.daily/%{name}
 %attr(640, root,root) %config %verify(not size mtime md5) /etc/logrotate.d/%{name}
