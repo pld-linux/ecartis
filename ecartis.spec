@@ -1,5 +1,5 @@
 %define		_snap	20030303
-%define		_rel	1
+%define		_rel	2
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
@@ -106,7 +106,7 @@ install %{name}	$RPM_BUILD_ROOT%{_ecartisdir}
 install modules/*.lpm		$RPM_BUILD_ROOT%{_ecartisdir}/modules
 install scripts/*		$RPM_BUILD_ROOT%{_ecartisdir}/scripts
 install ecartis.cfg.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.cfg
-install ecartis.hlp		$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.hlp
+install ecartis.hlp		$RPM_BUILD_ROOT%{_ecartisdata}/%{name}/ecartis.hlp
 install ecartis.aliases.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.aliases
 install banned			$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/banned
 install spam-regexp.sample	$RPM_BUILD_ROOT%{_ecartisdir}/spam-regexp.sample
