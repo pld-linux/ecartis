@@ -25,17 +25,17 @@ Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Ecartis is a modular mailing list manager; all its functionality is
-encapsulated in individual 'epm' (Ecartis Plugin Module) files.  This
-allows new commands and functionality to be added on the fly.  Ecartis
-has several useful features, including the ability to have 'flags' set on
-user accounts (similar to L-soft Listserv), and a very secure remote
-administration method over e-mail.
+encapsulated in individual 'epm' (Ecartis Plugin Module) files. This
+allows new commands and functionality to be added on the fly. Ecartis
+has several useful features, including the ability to have 'flags' set
+on user accounts (similar to L-soft Listserv), and a very secure
+remote administration method over e-mail.
 
-Errors to this package should be reported to bugs@ecartis.org or via the
-web at http://bugs.ecartis.org/ecartis
+Errors to this package should be reported to bugs@ecartis.org or via
+the web at http://bugs.ecartis.org/ecartis
 
-NOTE: This package used to be named Listar, but has recently changed name
-due to trademark issues.
+NOTE: This package used to be named Listar, but has recently changed
+name due to trademark issues.
 
 %package cgi
 Summary:	Web interface for Ecartis
@@ -61,7 +61,7 @@ Program ecartis-cgi, który jest interfejsem web do menad¿era Ecartis.
 %{__make} -Csrc -fMakefile.dist OPT="%{rpmcflags}"
 
 %install
-rm -Rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name},logrotate.d,cron.daily} \
 	$RPM_BUILD_ROOT%{_ecartisdir}/lists/{test/text,SITEDATA/cookies} \
 	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates,queue} \
