@@ -230,7 +230,7 @@ if [ -e /etc/smrsh ]; then
 fi
 echo "Copying lists from listar directories"
 cp -R /var/lib/listar/lists %{_ecartisdata}
-chown -R ecartis.ecartis %{_ecartisdata}
+chown -R ecartis:ecartis %{_ecartisdata}
 if [ -e /etc/smrsh ]; then
 	echo "Making link /etc/smrsh/listar to /etc/smrsh/ecartis:"
 	ln -sf ecartis /etc/smrsh/listar
