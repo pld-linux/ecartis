@@ -1,5 +1,5 @@
-%define		_snap	20020811
-%define		_rel	0.1
+%define		_snap	20021013
+%define		_rel	1
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
@@ -14,7 +14,8 @@ Source1:	%{name}.logrotate
 #Original taken from: http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
-Patch1:		%{name}-paths.patch
+Patch2:		%{name}-paths.patch
+# Does not work :-/ Connection refused..
 URL:		http://www.ecartis.org/
 Requires(pre):	/usr/sbin/useradd
 Requires(pre):	/usr/sbin/groupadd
@@ -107,11 +108,6 @@ install -D lists/test/text/*	$RPM_BUILD_ROOT%{_ecartisdata}/lists/test/text
 
 install %{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 
-# Links for configuration:
-#ln -sf %{_sysconfdir}/%{name}/%{name}.cfg	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.cfg
-#ln -sf %{_sysconfdir}/%{name}/%{name}.aliases	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.aliases
-#ln -sf %{_sysconfdir}/%{name}/banned		$RPM_BUILD_ROOT%{_ecartisdir}/banned
-#ln -sf %{_sysconfdir}/%{name}/%{name}.hlp	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.hlp
 touch	$RPM_BUILD_ROOT%{_var}/log/%{name}.log
 touch	$RPM_BUILD_ROOT%{_ecartisdata}/lists/SITEDATA/cookies
 
@@ -201,8 +197,9 @@ fi
 chmod 711 %{_ecartisdir}
 
 # Run upgrade
-echo "Run upgrade now... "
+echo "Running \"%{_ecartisdir}/%{name} -upgrade\" now... "
 %{_ecartisdir}/%{name} -upgrade
+echo "done."
 exit 0
 
 %triggerpostun -- listar
@@ -225,11 +222,7 @@ fi
 %attr(750,root,root) /etc/cron.daily/%{name}
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/logrotate.d/%{name}
 %attr(775,ecartis,ecartis) %dir %{_sysconfdir}/%{name}
-%attr(644,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
-%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.aliases
-%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.hlp
-%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/%{name}.cfg
-%attr(640,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_ecartisdir}/banned
+%attr(644,root   ,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
 %attr(640,ecartis,ecartis) %ghost /var/log/%{name}.log
 %attr(711,ecartis,ecartis) %dir %{_ecartisdir}
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/templates
@@ -237,7 +230,7 @@ fi
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/scripts
 %attr(751,ecartis,ecartis) %dir %{_ecartisdata}/lists
 %attr(750,ecartis,ecartis) %dir %{_ecartisdata}/queue
-%attr(640,root,ecartis) %{_ecartisdir}/spam-regexp.sample
+%attr(640,root   ,ecartis) %{_ecartisdir}/spam-regexp.sample
 %attr(750,ecartis,ecartis) %{_ecartisdir}/modules/*
 %attr(750,ecartis,ecartis) %{_ecartisdir}/scripts/*
 %attr(4755,ecartis,ecartis) %{_ecartisdir}/ecartis
