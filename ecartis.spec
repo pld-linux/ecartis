@@ -123,7 +123,7 @@ install ecartis.cfg.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.cfg
 install ecartis.aliases.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.aliases
 install banned			$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/banned
 install spam-regexp.sample	$RPM_BUILD_ROOT%{_ecartisdir}/spam-regexp.sample
-install templates/*.lsc		$RPM_BUILD_ROOT%{_ecartisdata}/templates
+install templates/*.lsc		$RPM_BUILD_ROOT%{_ecartisdir}/templates
 install ecartis.hlp		$RPM_BUILD_ROOT%{_ecartisdata}/ecartis.hlp
 install -D lists/test/text/*	$RPM_BUILD_ROOT%{_ecartisdata}/lists/test/text
 
@@ -264,4 +264,4 @@ fi
 %attr(755,root,   root) %{_cgidir}/*.cgi
 %attr(775,root,ecartis) %dir %{_ecartisdata}/lists/SITEDATA
 %attr(660,root,ecartis) %{_ecartisdata}/lists/SITEDATA/cookies
-%{_ecartisdata}/templates/*.lsc
+%{_ecartisdir}/templates/*.lsc
