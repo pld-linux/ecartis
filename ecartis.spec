@@ -30,13 +30,7 @@ Obsoletes:	listar
 
 %define		_ecartisdir	/usr/lib/ecartis
 %define		_ecartisdata	/var/lib/ecartis
-%if %{?_with_ra:0}%{!?_with_ra:1}
 %define		_cgidir		/home/services/httpd/cgi-bin/
-%endif
-%if %{?_with_ra:1}%{!?_with_ra:0}
-%define         _cgidir         /home/httpd/cgi-bin/
-%endif
-
 
 %description
 Ecartis is a modular mailing list manager; all its functionality is
@@ -106,11 +100,11 @@ install %{name}	$RPM_BUILD_ROOT%{_ecartisdir}
 install modules/*.lpm		$RPM_BUILD_ROOT%{_ecartisdir}/modules
 install scripts/*		$RPM_BUILD_ROOT%{_ecartisdir}/scripts
 install ecartis.cfg.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.cfg
-install ecartis.hlp		$RPM_BUILD_ROOT%{_ecartisdata}/%{name}/ecartis.hlp
 install ecartis.aliases.dist	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/ecartis.aliases
 install banned			$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/banned
 install spam-regexp.sample	$RPM_BUILD_ROOT%{_ecartisdir}/spam-regexp.sample
 install templates/*.lsc		$RPM_BUILD_ROOT%{_ecartisdir}/templates
+install ecartis.hlp		$RPM_BUILD_ROOT%{_ecartisdata}/ecartis.hlp
 install -D lists/test/text/*	$RPM_BUILD_ROOT%{_ecartisdata}/lists/test/text
 
 install %{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
@@ -237,6 +231,7 @@ fi
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/scripts
 %attr(751,ecartis,ecartis) %dir %{_ecartisdata}/lists
 %attr(750,ecartis,ecartis) %dir %{_ecartisdata}/queue
+%attr(750,ecartis,ecartis) %{_ecartisdata}/*.hlp
 %attr(640,root   ,ecartis) %{_ecartisdir}/spam-regexp.sample
 %attr(750,ecartis,ecartis) %{_ecartisdir}/modules/*
 %attr(750,ecartis,ecartis) %{_ecartisdir}/scripts/*
