@@ -1,5 +1,5 @@
-%define		_snap	20020427
-%define		_rel	0.3
+%define		_snap	20020718
+%define		_rel	0.4
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -19,7 +19,9 @@ Prereq:		%{_sbindir}/groupadd
 Prereq:		%{_sbindir}/userdel
 Prereq:		%{_sbindir}/groupdel
 Prereq:		/bin/hostname
+Provides:	listar
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	listar
 
 %define		_ecartisdir	/var/lib/ecartis
 
@@ -188,6 +190,14 @@ echo -n "Run upgrade now... "
 %{_ecartisdir}/%{name} -upgrade
 echo "done."
 exit 0
+
+%triggerpost -- listar
+if [ -e /etc/smrsh ]; then
+	ln -sf /etc/smrsh/ecartis /etc/smrsh/listar
+fi
+echo "Copying lists from listar directories"
+cp -R /var/lib/listar/ /var/lib/ecartis/
+chown -R ecartis.ecartis /var/lib/ecartis/
 
 %clean
 rm -Rf $RPM_BUILD_ROOT
