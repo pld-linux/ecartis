@@ -17,13 +17,10 @@ Patch1:		%{name}-conf.patch
 Patch2:		%{name}-paths.patch
 # Does not work :-/ Connection refused..
 URL:		http://www.ecartis.org/
-Requires(pre):	/usr/sbin/useradd
-Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	user-ecartis
 Requires(post):	/bin/hostname
 Requires(post):	fileutils
 Requires(post):	grep
-Requires(postun):	/usr/sbin/userdel
-Requires(postun):	/usr/sbin/groupdel
 Provides:	listar
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	listar
@@ -128,33 +125,6 @@ ln -sf %{_cgidir}/ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%pre
-if [ -n "`getgid %{name}`" ]; then
-	if [ "`getgid %{name}`" != "64" ]; then
-		echo "Error: group %{name} doesn't have gid=64. Correct this before installing %{name}." 1>&2
-		exit 1
-	fi
-else
-	echo "Adding group %{name} GID=64"
-	/usr/sbin/groupadd -f -g 64 -r %{name}
-fi
-
-if [ -n "`id -u %{name} 2>/dev/null`" ]; then
-	if [ "`id -u %{name}`" != "64" ]; then
-		echo "Error: user %{name} doesn't have uid=64. Correct this before installing %{name}." 1>&2
-		exit 1
-	fi
-else
-	echo "Adding user %{name} UID=64"
-	/usr/sbin/useradd -u 64 -r -d %{_ecartisdir}  -s /bin/false -c "Ecartis User" -g %{name} %{name} 1>&2
-fi
-
-%postun
-if [ "$1" = "0" ]; then
-	/usr/sbin/userdel	%{name}
-	/usr/sbin/groupdel	%{name}
-fi
 
 %post
 # alias:
