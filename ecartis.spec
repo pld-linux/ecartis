@@ -1,5 +1,5 @@
-%define		_snap	20020718
-%define		_rel	1
+%define		_snap	20020811
+%define		_rel	0.1
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
