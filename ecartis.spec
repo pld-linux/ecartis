@@ -1,5 +1,5 @@
 %define		_snap	20020718
-%define		_rel	0.11
+%define		_rel	1
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -62,6 +62,7 @@ Summary(pl):	Web interfejs dla Ecartis
 Group:		Applications/Mail
 Requires:	%{name} = %{version}
 Requires:	webserver
+Obsoletes:	listar-cgi
 
 %description cgi
 ecartis-cgi program, which provides a web-based front-end for your
