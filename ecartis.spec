@@ -1,4 +1,4 @@
-%define		_snap	20021013
+%define		_snap	20030303
 %define		_rel	1
 
 Summary:	Ecartis mailing list manager
