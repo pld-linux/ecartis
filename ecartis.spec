@@ -1,8 +1,8 @@
 %define		_snap	20020811
 %define		_rel	0.1
 
-Summary:	Ecartis Mailing List Manager
-Summary(pl):	Zarz±dca List Dyskusyjnych
+Summary:	Ecartis mailing list manager
+Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
 Name:		ecartis
 Version:	1.0.0
 Release:	%{_snap}.%{_rel}
@@ -70,7 +70,8 @@ ecartis-cgi program, which provides a web-based front-end for your
 Ecartis mailing lists.
 
 %description cgi -l pl
-Program ecartis-cgi, który jest interfejsem web do menad¿era Ecartis.
+Program ecartis-cgi, który jest interfejsem WWW do programu
+zarz±dzaj±cego Ecartis.
 
 %prep
 %setup -q
