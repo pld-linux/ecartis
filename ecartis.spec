@@ -14,6 +14,7 @@ Source1:	%{name}.logrotate
 #Original taken from: http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
+Patch1:		%{name}-paths.patch
 URL:		http://www.ecartis.org/
 Requires(pre):	%{_sbindir}/useradd
 Requires(pre):	%{_sbindir}/groupadd
@@ -75,6 +76,7 @@ Program ecartis-cgi, który jest interfejsem web do menad¿era Ecartis.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__make} -Csrc -fMakefile.dist WFLAGS="%{rpmcflags} -Wall"
@@ -103,10 +105,10 @@ install -D lists/test/text/*	$RPM_BUILD_ROOT%{_ecartisdata}/lists/test/text
 install %{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 
 # Links for configuration:
-ln -sf %{_sysconfdir}/%{name}/%{name}.cfg	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.cfg
-ln -sf %{_sysconfdir}/%{name}/%{name}.aliases	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.aliases
-ln -sf %{_sysconfdir}/%{name}/banned		$RPM_BUILD_ROOT%{_ecartisdir}/banned
-ln -sf %{_sysconfdir}/%{name}/%{name}.hlp	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.hlp
+#ln -sf %{_sysconfdir}/%{name}/%{name}.cfg	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.cfg
+#ln -sf %{_sysconfdir}/%{name}/%{name}.aliases	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.aliases
+#ln -sf %{_sysconfdir}/%{name}/banned		$RPM_BUILD_ROOT%{_ecartisdir}/banned
+#ln -sf %{_sysconfdir}/%{name}/%{name}.hlp	$RPM_BUILD_ROOT%{_ecartisdir}/%{name}.hlp
 touch	$RPM_BUILD_ROOT%{_var}/log/%{name}.log
 touch	$RPM_BUILD_ROOT%{_ecartisdata}/lists/SITEDATA/cookies
 
