@@ -31,8 +31,8 @@ Requires(post):	/bin/hostname
 Requires(post):	fileutils
 Requires(post):	grep
 Provides:	listar
-Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	listar
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_ecartisdir	/usr/lib/ecartis
 %define		_ecartisdata	/var/lib/ecartis
