@@ -1,5 +1,5 @@
 %define		_snap	20030814
-%define		_rel	1.2
+%define		_rel	2
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
@@ -239,8 +239,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ECARTIS.TODO NOTE README* src/{CHANGELOG,CREDITS}
-
+%doc ECARTIS.TODO NOTE README* src/{CHANGELOG,CREDITS} documentation/ecartis.txt
 %attr(750,root,root) /etc/cron.daily/%{name}
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/logrotate.d/%{name}
 %attr(775,ecartis,ecartis) %dir %{_sysconfdir}/%{name}
