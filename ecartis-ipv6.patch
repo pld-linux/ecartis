@@ -1,0 +1,103 @@
+--- ./src/Makefile.dist.org	Fri Jul 19 08:45:04 2002
++++ ./src/Makefile.dist	Mon Jul 29 17:55:33 2002
+@@ -93,6 +93,9 @@
+ # If we have the timezone() function, we can try that as well
+ #HAVE_TIMEZONE=-DHAVE_TIMEZONE
+ 
++# If we have the getaddrinfo() function, we can try that as well
++#HAVE_GETADDRINFO=-DHAVE_GETADDRINFO
++
+ # If we don't have the strchr function then define this
+ #NEED_STRCHR=-DNEED_STRCHR
+ 
+@@ -129,9 +132,9 @@
+ 
+ # Now set up the initial command line.  SUNOS_5 makes this a bit wierd.
+ ifndef SUNOS_5
+-CFLAGS=-I./inc ${GNU_STRFTIME} ${NEED_SNPRINTF} ${NEED_FLOCK} ${DEC_UNIX} ${IRIX} ${USE_HITCHING_LOCK} ${NO_MEMMOVE} ${NEED_STRERROR} ${NO_TM_GMTOFF} ${HAVE_TZNAME} ${HAVE_TIMEZONE} ${NEED_STRCHR} ${NEED_STRRCHR} ${MY_PRINTF_IS_BRAINDEAD} ${DETECT_BROKEN_HOSTNAME}
++CFLAGS=-I./inc ${GNU_STRFTIME} ${NEED_SNPRINTF} ${NEED_FLOCK} ${DEC_UNIX} ${IRIX} ${USE_HITCHING_LOCK} ${NO_MEMMOVE} ${NEED_STRERROR} ${NO_TM_GMTOFF} ${HAVE_TZNAME} ${HAVE_TIMEZONE} ${NEED_STRCHR} ${NEED_STRRCHR} ${MY_PRINTF_IS_BRAINDEAD} ${DETECT_BROKEN_HOSTNAME} ${HAVE_GETADDRINFO}
+ else
+-CFLAGS=-I./inc -DSUNOS_5 ${GNU_STRFTIME} ${NEED_SNPRINTF} ${NEED_FLOCK} ${USE_HITCHING_LOCK} ${NO_MEMMOVE} ${NEED_STRERROR} ${NO_TM_GMTOFF} ${HAVE_TZNAME} ${HAVE_TIMEZONE} ${NEED_STRCHR} ${NEED_STRRCHR} ${MY_PRINTF_IS_BRAINDEAD}
++CFLAGS=-I./inc -DSUNOS_5 ${GNU_STRFTIME} ${NEED_SNPRINTF} ${NEED_FLOCK} ${USE_HITCHING_LOCK} ${NO_MEMMOVE} ${NEED_STRERROR} ${NO_TM_GMTOFF} ${HAVE_TZNAME} ${HAVE_TIMEZONE} ${NEED_STRCHR} ${NEED_STRRCHR} ${MY_PRINTF_IS_BRAINDEAD} ${HAVE_GETADDRINFO}
+ endif
+ 
+ # Now set up the initial library path.  Once again, SUNOS_5 makes this
+--- ./src/io.c.org	Fri Jul 19 08:45:04 2002
++++ ./src/io.c	Mon Jul 29 17:59:54 2002
+@@ -119,27 +119,57 @@
+ /* Open a socket to a specific host/port */
+ int sock_open(const char *conhostname, int port, LSOCKET *sock)
+ {
+-    struct hostent *conhost;
+-    struct sockaddr_in name;
+-    int addr_len;
+-    int mysock;
++	int mysock = -1;
++#ifdef HAVE_GETADDRINFO
++	char pbuf[NI_MAXSERV];
++	struct addrinfo hints, *res, *res0;
++	int gerr = 0;
+ 
+-    conhost = gethostbyname(conhostname);
+-    if (conhost == 0)
+-        return -1;
++	sprintf(pbuf, "%d", port);
++	pbuf[sizeof(pbuf)-1] = '\0';
++	memset(&hints, 0, sizeof(hints));
++	hints.ai_family = AF_UNSPEC;
++	hints.ai_socktype = SOCK_STREAM;
++	if (getaddrinfo(conhostname, pbuf, &hints, &res0) != 0)
++		return -1;
+ 
+-    name.sin_port = htons(port);
+-    name.sin_family = AF_INET;
+-    bcopy((char *)conhost->h_addr, (char *)&name.sin_addr, conhost->h_length);
+-    mysock = socket(AF_INET, SOCK_STREAM, 0);
+-    addr_len = sizeof(name);
+-   
+-    if (connect(mysock, (struct sockaddr *)&name, addr_len) == -1)
+-        return -1;
+-
+-    *sock = mysock;
+- 
+-    return 0;
++	for (res = res0; res != NULL; res = res->ai_next) {
++		mysock = socket(res->ai_family, res->ai_socktype, 0);
++		if (mysock == -1)
++			continue;
++		if (connect(mysock, res->ai_addr, res->ai_addrlen) == -1) {
++			close(mysock);
++			continue;
++		}
++		gerr++;
++		break;
++	}
++	freeaddrinfo(res0);
++	if (gerr == 0)
++		return -1;
++#else /* HAVE_GETADDRINFO */
++	
++	struct hostent *conhost;
++	struct sockaddr_in name;
++	int addr_len;
++	
++	conhost = gethostbyname(conhostname);
++	if (conhost == 0)
++		return -1;
++	
++	name.sin_port = htons(port);
++	name.sin_family = AF_INET;
++	bcopy((char *)conhost->h_addr, (char *)&name.sin_addr, conhost->h_length);
++	mysock = socket(AF_INET, SOCK_STREAM, 0);
++	addr_len = sizeof(name);
++	
++	if (connect(mysock, (struct sockaddr *)&name, addr_len) == -1)
++		return -1;
++#endif /* HAVE_GETADDRINFO */
++	
++	*sock = mysock;
++	
++	return 0;
+ }
+ 
+ int sock_close(LSOCKET sock)
