@@ -1,5 +1,5 @@
 %define		_snap	20020718
-%define		_rel	0.4
+%define		_rel	0.5
 
 Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
@@ -51,7 +51,7 @@ przy u¿yciu poczty elektronicznej.
 Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres bugs@ecartis.org 
 lub zg³aszaæ na stronie http://bugs.ecartis.org/ecartis.
 
-UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³±
+UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³a
 zmieniona ze wzglêdu na problemy ze znakiem handlowym.
 
 
@@ -76,7 +76,7 @@ Program ecartis-cgi, który jest interfejsem web do menad¿era Ecartis.
 
 
 %build
-%{__make} -Csrc -fMakefile.dist OPT="%{rpmcflags}"
+%{__make} -Csrc -fMakefile.dist WFLAGS="%{rpmcflags} -Wall"
 
 %install
 rm -rf $RPM_BUILD_ROOT
