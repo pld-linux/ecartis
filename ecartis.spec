@@ -16,11 +16,13 @@ Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
 Patch1:		%{name}-paths.patch
 URL:		http://www.ecartis.org/
-Requires(pre):	%{_sbindir}/useradd
-Requires(pre):	%{_sbindir}/groupadd
+Requires(pre):	/usr/sbin/useradd
+Requires(pre):	/usr/sbin/groupadd
 Requires(post):	/bin/hostname
-Requires(postun):	%{_sbindir}/userdel
-Requires(postun):	%{_sbindir}/groupdel
+Requires(post):	fileutils
+Requires(post):	grep
+Requires(postun):	/usr/sbin/userdel
+Requires(postun):	/usr/sbin/groupdel
 Provides:	listar
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	listar
@@ -127,6 +129,9 @@ EOF
 ln -sf %{_ecartisdir}/%{name} $RPM_BUILD_ROOT%{_ecartisdir}/listar
 ln -sf /home/services/httpd/cgi-bin/ecartisgate.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/listargate.cgi
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %pre
 if [ -n "`getgid %{name}`" ]; then
 	if [ "`getgid %{name}`" != "64" ]; then
@@ -212,9 +217,6 @@ if [ -e /etc/smrsh ]; then
 	echo "Making link /etc/smrsh/listar to /etc/smrsh/ecartis:"
 	ln -sf ecartis /etc/smrsh/listar
 fi
-
-%clean
-rm -Rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
