@@ -1,0 +1,3 @@
+/var/log/ecartis.log {
+	create 640 ecartis ecartis
+}
