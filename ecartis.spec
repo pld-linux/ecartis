@@ -30,13 +30,7 @@ Obsoletes:	listar
 
 %define		_ecartisdir	/usr/lib/ecartis
 %define		_ecartisdata	/var/lib/ecartis
-%if %{?_with_ra:0}%{!?_with_ra:1}
-%define		_cgidir		/home/services/httpd/cgi-bin/
-%endif
-%if %{?_with_ra:1}%{!?_with_ra:0}
 %define         _cgidir         /home/httpd/cgi-bin/
-%endif
-
 
 %description
 Ecartis is a modular mailing list manager; all its functionality is
