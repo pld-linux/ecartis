@@ -6,7 +6,7 @@ Summary(pl):	Zarz±dca List Dyskusyjnych
 Name:		ecartis
 Version:	1.0.0
 Release:	%{_snap}.%{_rel}
-License:	GPL
+License:	GPL v2
 Vendor:		NodeRunner Software
 Group:		Applications/Mail
 Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{version}-snap%{_snap}.tar.gz
