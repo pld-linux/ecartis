@@ -30,6 +30,13 @@ Obsoletes:	listar
 
 %define		_ecartisdir	/usr/lib/ecartis
 %define		_ecartisdata	/var/lib/ecartis
+%if %{?_with_ra:0}%{!?_with_ra:1}
+%define		_cgidir		/home/services/httpd/cgi-bin/
+%endif
+%if %{?_with_ra:1}%{!?_with_ra:0}
+%define         _cgidir         /home/httpd/cgi-bin/
+%endif
+
 
 %description
 Ecartis is a modular mailing list manager; all its functionality is
@@ -90,7 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name},logrotate.d,cron.daily} \
 	$RPM_BUILD_ROOT%{_ecartisdata}/{queue,lists/{test/text,SITEDATA/cookies}} \
 	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates} \
-	$RPM_BUILD_ROOT{/home/services/httpd/cgi-bin/,/var/log}
+	$RPM_BUILD_ROOT{%{_cgidir},/var/log}
 
 %{__make} -Csrc -fMakefile.dist install
 
@@ -111,7 +118,7 @@ install %{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 touch	$RPM_BUILD_ROOT%{_var}/log/%{name}.log
 touch	$RPM_BUILD_ROOT%{_ecartisdata}/lists/SITEDATA/cookies
 
-cat << EOF > $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/ecartisgate.cgi
+cat << EOF > $RPM_BUILD_ROOT%{_cgidir}/ecartisgate.cgi
 #!/bin/sh
 %{_ecartisdir}/%{name} -lsg2
 EOF
@@ -123,7 +130,7 @@ EOF
 
 # For compatibility with Listar:
 ln -sf %{_ecartisdir}/%{name} $RPM_BUILD_ROOT%{_ecartisdir}/listar
-ln -sf /home/services/httpd/cgi-bin/ecartisgate.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/listargate.cgi
+ln -sf %{_cgidir}/ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -238,7 +245,7 @@ fi
 %files cgi
 %defattr(644,root,root,755)
 %doc src/modules/lsg2/*.txt
-%attr(755,root,   root) /home/services/httpd/cgi-bin/*.cgi
+%attr(755,root,   root) %{_cgidir}/*.cgi
 %attr(770,root,ecartis) %dir %{_ecartisdata}/lists/SITEDATA
 %attr(660,root,ecartis) %{_ecartisdata}/lists/SITEDATA/cookies
 %{_ecartisdir}/templates/*.lsc
