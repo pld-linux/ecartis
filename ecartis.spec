@@ -5,7 +5,7 @@ Summary:	Ecartis Mailing List Manager
 Summary(pl):	Zarz±dca List Dyskusyjnych
 Name:		ecartis
 Version:	1.0.0
-Release:	%{_snap}.{_rel}
+Release:	%{_snap}.%{_rel}
 License:	GPL
 Vendor:		NodeRunner Software
 Group:		Applications/Mail
