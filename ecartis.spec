@@ -1,5 +1,5 @@
 %define		_snap	20030814
-%define		_rel	1
+%define		_rel	1.1
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
@@ -90,6 +90,8 @@ zarz±dzaj±cego Ecartis.
 %patch2 -p1
 
 %build
+TEXINPUTS=/usr/share/latex2html/texinputs; export TEXINPUTS
+
 perl -pi -e 's@include templates@include %{_ecartisdata}/templates@' templates/*.lsc
 
 %{__make} -C src \
@@ -103,7 +105,6 @@ perl -pi -e 's@include templates@include %{_ecartisdata}/templates@' templates/*
 	W3M=%{_bindir}/w3m \
 	LATEX2HTML=%{_bindir}/latex2html \
 	WFLAGS="%{rpmcflags} -Wall"
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
