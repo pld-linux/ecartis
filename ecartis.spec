@@ -10,6 +10,7 @@ License:	GPL v2
 Vendor:		NodeRunner Software
 Group:		Applications/Mail
 Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{version}-snap%{_snap}.tar.gz
+# Source0-md5:	658f5a99e931ba4f395520c64d92e6c3
 Source1:	%{name}.logrotate
 #Original taken from: http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch0:		%{name}-ipv6.patch
