@@ -17,7 +17,12 @@ Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-paths.patch
 URL:		http://www.ecartis.org/
+BuildRequires:	latex2html
 BuildRequires:	perl-base
+BuildRequires:	tetex-dvips
+BuildRequires:	tetex-latex
+BuildRequires:	tetex-pdftex
+BuildRequires:	w3m
 Requires(pre):	/usr/sbin/useradd
 Requires(pre):	/usr/sbin/groupadd
 Requires(postun):	/usr/sbin/userdel
@@ -85,9 +90,20 @@ zarz±dzaj±cego Ecartis.
 %patch2 -p1
 
 %build
-%{__make} -Csrc -fMakefile.dist WFLAGS="%{rpmcflags} -Wall"
-
 perl -pi -e 's@include templates@include %{_ecartisdata}/templates@' templates/*.lsc
+
+%{__make} -C src \
+	-fMakefile.dist \
+	WFLAGS="%{rpmcflags} -Wall"
+
+%{__make} -C documentation \
+	LATEX=%{_bindir}/latex \
+	PDFLATEX=%{_bindir}/pdflatex \
+	DVIPS=%{_bindir}/dvips \
+	W3M=%{_bindir}/w3m \
+	LATEX2HTML=%{_bindir}/latex2html \
+	WFLAGS="%{rpmcflags} -Wall"
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -96,7 +112,8 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name},logrotate.d,cron.daily} \
 	$RPM_BUILD_ROOT%{_ecartisdir}/{modules,scripts,templates} \
 	$RPM_BUILD_ROOT{%{_cgidir},/var/log}
 
-%{__make} -Csrc -fMakefile.dist install
+%{__make} -C src install \
+	-fMakefile.dist
 
 install %{name}	$RPM_BUILD_ROOT%{_ecartisdir}
 
