@@ -1,8 +1,11 @@
 #
-# TODO: %bcond_without	doc
+# TODO: 
+# - %bcond_without	doc
+# - look at permissions. why all by default have access to lists, their config,
+#   users...
 
 %define		_snap	20031228
-%define		_rel	3
+%define		_rel	4
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
@@ -253,6 +256,7 @@ fi
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/templates
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/modules
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/scripts
+%attr(755,ecartis,ecartis) %dir %{_ecartisdata}
 %attr(751,ecartis,ecartis) %dir %{_ecartisdata}/archive
 %attr(755,ecartis,ecartis) %dir %{_ecartisdata}/lists
 %attr(750,ecartis,ecartis) %dir %{_ecartisdata}/queue
