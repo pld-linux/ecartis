@@ -40,7 +40,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_ecartisdir	/usr/lib/ecartis
 %define		_ecartisdata	/var/lib/ecartis
-%define		_cgidir		/home/services/httpd/cgi-bin/
+%define		_cgidir		/home/services/httpd/cgi-bin
 
 %description
 Ecartis is a modular mailing list manager; all its functionality is
@@ -149,7 +149,7 @@ EOF
 
 # For compatibility with Listar:
 ln -sf %{_ecartisdir}/%{name} $RPM_BUILD_ROOT%{_ecartisdir}/listar
-ln -sf %{_cgidir}ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
+ln -sf %{_cgidir}/ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
