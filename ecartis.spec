@@ -1,4 +1,4 @@
-%define		_snap	20030814
+%define		_snap	20031228
 %define		_rel	1
 
 Summary:	Ecartis mailing list manager
@@ -10,7 +10,7 @@ License:	GPL v2
 Vendor:		NodeRunner Software
 Group:		Applications/Mail
 Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{version}-snap%{_snap}.tar.gz
-# Source0-md5:	0934c531fdba96a735de579c7439ae9c
+# Source0-md5:	bb7515b318227b9e0d2eca1b31e5248e
 Source1:	%{name}.logrotate
 #Original taken from: http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch0:		%{name}-ipv6.patch
