@@ -1,6 +1,5 @@
-diff -uNr ecartis-1.0.0.orig/src/inc/config.h ecartis-1.0.0/src/inc/config.h
---- ecartis-1.0.0.orig/src/inc/config.h	Mon Aug 12 08:45:07 2002
-+++ ecartis-1.0.0/src/inc/config.h	Fri Aug 30 19:32:07 2002
+--- ./src/inc/config.h.org	Mon Oct 14 08:45:06 2002
++++ ./src/inc/config.h	Sun Dec 29 23:17:29 2002
 @@ -20,7 +20,7 @@
  #define SERVICE_NAME_UC "ECARTIS"
  #define SERVICE_NAME_MC "Ecartis"
@@ -10,10 +9,9 @@ diff -uNr ecartis-1.0.0.orig/src/inc/config.h ecartis-1.0.0/src/inc/config.h
  #define SERVICE_ADDRESS "ecartis@localhost"
  
  #endif /* _CONFIG_H */
-diff -uNr ecartis-1.0.0.orig/src/variables.c ecartis-1.0.0/src/variables.c
---- ecartis-1.0.0.orig/src/variables.c	Mon Aug 12 08:45:07 2002
-+++ ecartis-1.0.0/src/variables.c	Fri Aug 30 19:40:33 2002
-@@ -1295,9 +1295,9 @@
+--- ./src/variables.c.org	Mon Oct 14 08:45:06 2002
++++ ./src/variables.c	Sun Dec 29 23:24:07 2002
+@@ -1295,12 +1295,12 @@
      register_var("default-flags", "|ECHOPOST|", "Basic Configuration",
                   "Default flags given to a user when they are subscribed.",
                   "default-flags = |NOPOST|DIGEST|", VAR_STRING, VAR_ALL);
@@ -24,4 +22,17 @@ diff -uNr ecartis-1.0.0.orig/src/variables.c ecartis-1.0.0/src/variables.c
 +                 "global-blacklist = /etc/ecartis/banned", VAR_STRING, VAR_GLOBAL|VAR_SITE);
      register_var("logfile", NULL, "Debugging",
                   "Filename where debugging log information will be stored.",
-                  "logfile = ./server.log", VAR_STRING, VAR_GLOBAL|VAR_SITE);
+-                 "logfile = ./server.log", VAR_STRING, VAR_GLOBAL|VAR_SITE);
++                 "logfile = /var/log/ecartis.log", VAR_STRING, VAR_GLOBAL|VAR_SITE);
+     register_var("full-bounce", "no", "SMTP",
+                  "Should bounces contain the full message or only the headers.",
+                  "full-bounce = false", VAR_BOOL, VAR_ALL);
+@@ -1314,7 +1314,7 @@
+     register_var("moderate-include-queue", "no", "Moderation", 
+                  "Should moderated messages contain the full message that triggered moderation?",
+                  "moderate-include-queue = yes", VAR_BOOL, VAR_ALL);
+-    buffer_printf(buf, sizeof(buf) - 1, "%s.hlp", SERVICE_NAME_LC);
++    buffer_printf(buf, sizeof(buf) - 1, "/etc/ecartis/%s.hlp", SERVICE_NAME_LC);
+     register_var("no-command-file", buf, "Files",
+                  "This is a global file to send if a message to the main listserver or request address has no commands.",
+                  "no-command-file = helpfile",VAR_STRING, VAR_GLOBAL|VAR_SITE);
