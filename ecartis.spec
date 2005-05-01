@@ -25,7 +25,7 @@ Patch2:		%{name}-paths.patch
 URL:		http://www.ecartis.org/
 BuildRequires:	latex2html
 BuildRequires:	perl-base
-BuildRequires:	rpmbuild(macros) >= 1.159
+BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	tetex-dvips
 BuildRequires:	tetex-latex
 BuildRequires:	tetex-pdftex
@@ -59,7 +59,7 @@ on user accounts (similar to L-soft Listserv), and a very secure
 remote administration method over e-mail.
 
 Errors to this package should be reported to bugs@ecartis.org or via
-the web at http://bugs.ecartis.org/ecartis/.
+the web at <http://bugs.ecartis.org/ecartis/>.
 
 NOTE: This package used to be named Listar, but has recently changed
 name due to trademark issues.
@@ -74,7 +74,7 @@ programie L-soft Listserv), i bardzo bezpieczn± metodê zdalnej administracji
 przy u¿yciu poczty elektronicznej.
 
 Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres bugs@ecartis.org
-lub zg³aszaæ na stronie http://bugs.ecartis.org/ecartis/.
+lub zg³aszaæ na stronie <http://bugs.ecartis.org/ecartis/>.
 
 UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³a
 zmieniona ze wzglêdu na problemy ze znakiem handlowym.
@@ -163,26 +163,8 @@ ln -sf %{_cgidir}/ecartisgate.cgi $RPM_BUILD_ROOT%{_cgidir}/listargate.cgi
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-if [ -n "`/usr/bin/getgid ecartis`" ]; then
-	if [ "`/usr/bin/getgid ecartis`" != 64 ]; then
-		echo "Error: group ecartis doesn't have gid=64. Correct this before installing %{name}." 1>&2
-		exit 1
-	fi
-else
-	echo "Adding group ecartis GID=64"
-	/usr/sbin/groupadd -g 64 ecartis 1>&2
-fi
-
-if [ -n "`/bin/id -u ecartis 2>/dev/null`" ]; then
-	if [ "`/bin/id -u ecartis`" != 64 ]; then
-		echo "Error: user ecartis doesn't have uid=64. Correct this before installing %{name}." 1>&2
-		exit 1
-	fi
-else
-	echo "Adding user ecartis UID=64"
-	/usr/sbin/useradd -u 64 -d %{_ecartisdir} -s /bin/false \
-		-c "Ecartis User" -g ecartis ecartis 1>&2
-fi
+%groupadd -g 64 ecartis
+%useradd -u 64 -d %{_ecartisdir} -s /bin/false -c "Ecartis User" -g ecartis ecartis
 
 %postun
 if [ "$1" = "0" ]; then
