@@ -4,19 +4,19 @@
 # - look at permissions. why all by default have access to lists, their config,
 #   users...
 
-%define		_snap	20031228
-%define		_rel	4
+%define		_ver	1.0.0
+%define		_snap	20050101
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
 Name:		ecartis
-Version:	1.0.0
-Release:	%{_snap}.%{_rel}
+Version:	%{_ver}.%{_snap}
+Release:	1
 License:	GPL v2
 Vendor:		NodeRunner Software
 Group:		Applications/Mail
-Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{version}-snap%{_snap}.tar.gz
-# Source0-md5:	bb7515b318227b9e0d2eca1b31e5248e
+Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{_ver}-snap%{_snap}.tar.gz
+# Source0-md5:	01fddc41a5a5f0398cd93915f9d2947a
 Source1:	%{name}.logrotate
 #Original taken from: http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch0:		%{name}-ipv6.patch
@@ -96,7 +96,7 @@ Program ecartis-cgi, który jest interfejsem WWW do programu
 zarz±dzaj±cego Ecartis.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{_ver}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
