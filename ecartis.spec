@@ -1,5 +1,5 @@
 #
-# TODO: 
+# TODO:
 # - %bcond_without	doc
 # - look at permissions. why all by default have access to lists, their config,
 #   users...
@@ -23,6 +23,7 @@ Patch0:		%{name}-ipv6.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-paths.patch
 URL:		http://www.ecartis.org/
+BuildRequires:	/usr/bin/pdflatex
 BuildRequires:	latex2html
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.202
@@ -30,16 +31,15 @@ BuildRequires:	tetex-dvips
 BuildRequires:	tetex-latex
 BuildRequires:	tetex-pdftex
 BuildRequires:	w3m
-BuildRequires:	/usr/bin/pdflatex
+Requires(post):	/bin/hostname
+Requires(post):	fileutils
+Requires(post):	grep
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-Requires(postun):	/usr/sbin/groupdel
-Requires(postun):	/usr/sbin/userdel
-Requires(post):	/bin/hostname
-Requires(post):	fileutils
-Requires(post):	grep
 Provides:	group(ecartis)
 Provides:	user(ecartis)
 Provides:	listar
@@ -236,9 +236,9 @@ fi
 %defattr(644,root,root,755)
 %doc ECARTIS.TODO NOTE README* src/{CHANGELOG,CREDITS} documentation/ecartis.txt
 %attr(750,root,root) /etc/cron.daily/%{name}
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/%{name}
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/%{name}
 %attr(775,ecartis,ecartis) %dir %{_sysconfdir}/%{name}
-%attr(644,root,ecartis) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*
+%attr(644,root,ecartis) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*
 %attr(640,ecartis,ecartis) %ghost /var/log/%{name}.log
 %attr(711,ecartis,ecartis) %dir %{_ecartisdir}
 %attr(750,ecartis,ecartis) %dir %{_ecartisdir}/templates
