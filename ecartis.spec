@@ -5,18 +5,18 @@
 #   users...
 
 %define		_ver	1.0.0
-%define		_snap	20050101
+%define		_snap	20060813
 
 Summary:	Ecartis mailing list manager
 Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
 Name:		ecartis
 Version:	%{_ver}.%{_snap}
-Release:	2
+Release:	0.1
 License:	GPL v2
 Vendor:		NodeRunner Software
 Group:		Applications/Mail
 Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{_ver}-snap%{_snap}.tar.gz
-# Source0-md5:	01fddc41a5a5f0398cd93915f9d2947a
+# Source0-md5:	198e045b5b64aecee50e6c3fc69a42f4
 Source1:	%{name}.logrotate
 #Original taken from: http://www.misiek.eu.org/ipv6/listar-0.129a-ipv6-20000915.patch.gz
 Patch0:		%{name}-ipv6.patch
