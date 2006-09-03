@@ -13,7 +13,6 @@ Name:		ecartis
 Version:	%{_ver}.%{_snap}
 Release:	0.1
 License:	GPL v2
-Vendor:		NodeRunner Software
 Group:		Applications/Mail
 Source0:	ftp://ftp.ecartis.org/pub/ecartis/snapshots/tar/%{name}-%{_ver}-snap%{_snap}.tar.gz
 # Source0-md5:	198e045b5b64aecee50e6c3fc69a42f4
@@ -41,8 +40,8 @@ Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Provides:	group(ecartis)
-Provides:	user(ecartis)
 Provides:	listar
+Provides:	user(ecartis)
 Obsoletes:	listar
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -70,11 +69,12 @@ Ca³a jego funkcjonalno¶æ zawiera siê w pojedynczych plikach 'epm'
 (Ecartis Plugin Module), dziêki czemu mo¿na w locie dodawaæ nowe
 polecenia i funkcjonalno¶æ. Ecartis ma wiele przydatnych funkcji, np.
 mo¿liwo¶æ ustawienia 'flag' na kontach u¿ytkowników (podobnie jak w
-programie L-soft Listserv), i bardzo bezpieczn± metodê zdalnej administracji
-przy u¿yciu poczty elektronicznej.
+programie L-soft Listserv), i bardzo bezpieczn± metodê zdalnej
+administracji przy u¿yciu poczty elektronicznej.
 
-Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres bugs@ecartis.org
-lub zg³aszaæ na stronie <http://bugs.ecartis.org/ecartis/>.
+Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres
+bugs@ecartis.org lub zg³aszaæ na stronie
+<http://bugs.ecartis.org/ecartis/>.
 
 UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³a
 zmieniona ze wzglêdu na problemy ze znakiem handlowym.
@@ -83,7 +83,7 @@ zmieniona ze wzglêdu na problemy ze znakiem handlowym.
 Summary:	Web interface for Ecartis
 Summary(pl):	Web interfejs dla Ecartis
 Group:		Applications/Mail
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	webserver
 Obsoletes:	listar-cgi
 
