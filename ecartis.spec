@@ -1,5 +1,6 @@
 #
 # TODO:
+# - webapps or /usr/lib/cgi-bin
 # - %bcond_without	doc
 # - look at permissions. why all by default have access to lists, their config,
 #   users...
