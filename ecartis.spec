@@ -9,7 +9,7 @@
 %define		_snap	20060813
 
 Summary:	Ecartis mailing list manager
-Summary(pl.UTF-8):   Zarządca list dyskusyjnych Ecartis
+Summary(pl.UTF-8):	Zarządca list dyskusyjnych Ecartis
 Name:		ecartis
 Version:	%{_ver}.%{_snap}
 Release:	0.1
@@ -82,7 +82,7 @@ zmieniona ze względu na problemy ze znakiem handlowym.
 
 %package cgi
 Summary:	Web interface for Ecartis
-Summary(pl.UTF-8):   Web interfejs dla Ecartis
+Summary(pl.UTF-8):	Web interfejs dla Ecartis
 Group:		Applications/Mail
 Requires:	%{name} = %{version}-%{release}
 Requires:	webserver
