@@ -9,7 +9,7 @@
 %define		_snap	20060813
 
 Summary:	Ecartis mailing list manager
-Summary(pl):	Zarz±dca list dyskusyjnych Ecartis
+Summary(pl.UTF-8):   ZarzÄ…dca list dyskusyjnych Ecartis
 Name:		ecartis
 Version:	%{_ver}.%{_snap}
 Release:	0.1
@@ -64,25 +64,25 @@ the web at <http://bugs.ecartis.org/ecartis/>.
 NOTE: This package used to be named Listar, but has recently changed
 name due to trademark issues.
 
-%description -l pl
-Ecartis jest modu³owym narzêdziem do zarz±dzania listami dyskusyjnymi.
-Ca³a jego funkcjonalno¶æ zawiera siê w pojedynczych plikach 'epm'
-(Ecartis Plugin Module), dziêki czemu mo¿na w locie dodawaæ nowe
-polecenia i funkcjonalno¶æ. Ecartis ma wiele przydatnych funkcji, np.
-mo¿liwo¶æ ustawienia 'flag' na kontach u¿ytkowników (podobnie jak w
-programie L-soft Listserv), i bardzo bezpieczn± metodê zdalnej
-administracji przy u¿yciu poczty elektronicznej.
+%description -l pl.UTF-8
+Ecartis jest moduÅ‚owym narzÄ™dziem do zarzÄ…dzania listami dyskusyjnymi.
+CaÅ‚a jego funkcjonalnoÅ›Ä‡ zawiera siÄ™ w pojedynczych plikach 'epm'
+(Ecartis Plugin Module), dziÄ™ki czemu moÅ¼na w locie dodawaÄ‡ nowe
+polecenia i funkcjonalnoÅ›Ä‡. Ecartis ma wiele przydatnych funkcji, np.
+moÅ¼liwoÅ›Ä‡ ustawienia 'flag' na kontach uÅ¼ytkownikÃ³w (podobnie jak w
+programie L-soft Listserv), i bardzo bezpiecznÄ… metodÄ™ zdalnej
+administracji przy uÅ¼yciu poczty elektronicznej.
 
-Informacje o b³êdach w pakiecie nale¿y wysy³aæ na adres
-bugs@ecartis.org lub zg³aszaæ na stronie
+Informacje o bÅ‚Ä™dach w pakiecie naleÅ¼y wysyÅ‚aÄ‡ na adres
+bugs@ecartis.org lub zgÅ‚aszaÄ‡ na stronie
 <http://bugs.ecartis.org/ecartis/>.
 
-UWAGA: Pakiet nazywa³ siê kiedy¶ Listar, jednak nazwa zosta³a
-zmieniona ze wzglêdu na problemy ze znakiem handlowym.
+UWAGA: Pakiet nazywaÅ‚ siÄ™ kiedyÅ› Listar, jednak nazwa zostaÅ‚a
+zmieniona ze wzglÄ™du na problemy ze znakiem handlowym.
 
 %package cgi
 Summary:	Web interface for Ecartis
-Summary(pl):	Web interfejs dla Ecartis
+Summary(pl.UTF-8):   Web interfejs dla Ecartis
 Group:		Applications/Mail
 Requires:	%{name} = %{version}-%{release}
 Requires:	webserver
@@ -92,9 +92,9 @@ Obsoletes:	listar-cgi
 ecartis-cgi program, which provides a web-based front-end for your
 Ecartis mailing lists.
 
-%description cgi -l pl
-Program ecartis-cgi, który jest interfejsem WWW do programu
-zarz±dzaj±cego Ecartis.
+%description cgi -l pl.UTF-8
+Program ecartis-cgi, ktÃ³ry jest interfejsem WWW do programu
+zarzÄ…dzajÄ…cego Ecartis.
 
 %prep
 %setup -q -n %{name}-%{_ver}
